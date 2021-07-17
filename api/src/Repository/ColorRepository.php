@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Color;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -19,32 +20,14 @@ class ColorRepository extends ServiceEntityRepository
         parent::__construct($registry, Color::class);
     }
 
-    // /**
-    //  * @return Color[] Returns an array of Color objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /** @return array<Color> */
+    public function list(int $page = 1, int $size = 20): array
     {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
-    }
-    */
+        $query = $this->createQueryBuilder('c')
+            ->setFirstResult(($page - 1) * $size)
+            ->setMaxResults($size)
+            ->getQuery();
 
-    /*
-    public function findOneBySomeField($value): ?Color
-    {
-        return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $query->getResult();
     }
-    */
 }

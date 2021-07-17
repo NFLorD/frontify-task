@@ -5,9 +5,11 @@ namespace App\Entity;
 use App\Repository\ColorRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ColorRepository::class)
+ * @UniqueEntity("hex")
  */
 class Color
 {
@@ -20,16 +22,13 @@ class Color
 
     /**
      * @ORM\Column(type="string", length=32)
-     * @Assert\NotBlank
+     * @Assert\NotBlank(normalizer="trim")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=6, unique=true)
-     * @Assert\AtLeastOneOf({
-     *     @Assert\Length(min=3, max=3),
-     *     @Assert\Length(min=6, max=6)
-     * })
+     * @Assert\Length(min=6, max=6)
      */
     private $hex;
 

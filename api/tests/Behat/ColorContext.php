@@ -20,9 +20,18 @@ final class ColorContext implements Context
     ) { }
 
     /**
+     * @BeforeScenario
+     */
+    public function clearData(): void
+    {
+        $this->colors = [];
+        $this->entityManager->createQuery('DELETE FROM App:Color')->execute();
+    }
+
+    /**
      * @Given there is a color named :name, with hex :hex
      */
-    public function thereIsAColorNamedWithHex($name, $hex)
+    public function thereIsAColorNamedWithHex($name, $hex): void
     {
         $color = new Color;
         $color->setName($name);
@@ -37,20 +46,26 @@ final class ColorContext implements Context
     /**
      * @When I try to create a color named :name, with hex :hex
      */
-    public function iTryToCreateAColorNamedWithHex($name, $hex)
+    public function iTryToCreateAColorNamedWithHex($name, $hex): void
     {
         $this->restApiContext->post('/api/color', json_encode([
             'name' => $name,
             'hex' => $hex
         ]));
+
+        $response = $this->restApiContext->getResponse();
+        $payload = json_decode($response->getContent(), true);
+        $id = $payload['id'] ?? 0;
+
+        $this->colors[$name] = $id;
     }
 
     /**
      * @When I try to delete the color :name
      */
-    public function iTryToDeleteTheColor($name)
+    public function iTryToDeleteTheColor($name): void
     {
-        $id = $this->colors[$name];
+        $id = $this->colors[$name] ?? 0;
         $this->restApiContext->delete("/api/color/$id");
     }
 
@@ -65,9 +80,23 @@ final class ColorContext implements Context
     /**
      * @Then I should have a color named :name
      */
-    public function iShouldHaveAColorNamed($name)
+    public function iShouldHaveAColorNamed(string $name): void
     {
-        if (null === $this->colorRepository->findOneBy(['name' => $name])) {
+        $id = $this->colors[$name] ?? 0;
+
+        if (null === $this->colorRepository->find($id)) {
+            throw new \RuntimeException;
+        }
+    }
+
+    /**
+     * @Then I should not have a color named :name
+     */
+    public function iShouldNotHaveAColorNamed(string $name): void
+    {
+        $id = $this->colors[$name] ?? 0;
+
+        if (null !== $this->colorRepository->find($id)) {
             throw new \RuntimeException;
         }
     }

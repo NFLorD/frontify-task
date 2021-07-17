@@ -21,6 +21,7 @@ class ColorType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Color::class,
+            'csrf_protection' => false
         ]);
     }
 }
