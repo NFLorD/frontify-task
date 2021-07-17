@@ -2,13 +2,13 @@ name: CI
 on: [push]
 
 jobs:
-  build:
+  test-suite:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
 
       - name: Build and start the containers
-        run: docker-compose up -d --file=docker-compose.test.yaml
+        run: docker-compose --file=docker-compose.test.yaml up -d
       
       - name: Wait for the containers
         uses: jakejarvis/wait-action@master
