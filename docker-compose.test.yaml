@@ -1,0 +1,16 @@
+version: "3.3"
+services:
+  api:
+    build: 
+      context: ./infra/api
+    volumes:
+      - ./api:/var/www/html
+    depends_on: 
+      - mysql
+    ports:
+      - "9000:9000"
+  mysql:
+    build: 
+      context: ./infra/mysql
+    ports:
+      - "3306:3306"

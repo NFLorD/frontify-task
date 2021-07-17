@@ -1,0 +1,25 @@
+name: CI
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Build and start the containers
+        run: docker-compose up -d --file=docker-compose.test.yaml
+      
+      - name: Wait for the containers
+        uses: jakejarvis/wait-action@master
+        with:
+          time: '10s'
+
+      - name: Prepare the test environment
+        run: |
+          docker exec -t frontify-task_php_1 sh -c "composer install"
+          docker exec -t frontify-task_php_1 sh -c "php /var/www/html/bin/console --env=test doctrine:database:create --if-not-exists"
+          docker exec -t frontify-task_php_1 sh -c "php /var/www/html/bin/console --env=test doctrine:migrations:migrate --no-interaction"
+
+      - name: Run the tests
+        run: docker exec -t frontify-task_php_1 sh -c "php /var/www/html/vendor/bin/behat"

@@ -1,0 +1,4 @@
+FROM mysql:8.0.25
+
+ENV MYSQL_DATABASE "color_manager"
+ENV MYSQL_ROOT_PASSWORD "root"
