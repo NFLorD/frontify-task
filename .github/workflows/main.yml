@@ -17,9 +17,9 @@ jobs:
 
       - name: Prepare the test environment
         run: |
-          docker exec -t frontify-task_php_1 sh -c "composer install"
-          docker exec -t frontify-task_php_1 sh -c "php /var/www/html/bin/console --env=test doctrine:database:create --if-not-exists"
-          docker exec -t frontify-task_php_1 sh -c "php /var/www/html/bin/console --env=test doctrine:migrations:migrate --no-interaction"
+          docker exec -t frontify-task_api_1 sh -c "composer install"
+          docker exec -t frontify-task_api_1 sh -c "php /var/www/html/bin/console --env=test doctrine:database:create --if-not-exists"
+          docker exec -t frontify-task_api_1 sh -c "php /var/www/html/bin/console --env=test doctrine:migrations:migrate --no-interaction"
 
       - name: Run the tests
-        run: docker exec -t frontify-task_php_1 sh -c "php /var/www/html/vendor/bin/behat"
+        run: docker exec -t frontify-task_api_1 sh -c "php /var/www/html/vendor/bin/behat"
