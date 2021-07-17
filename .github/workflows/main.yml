@@ -15,6 +15,9 @@ jobs:
         with:
           time: '10s'
 
+      - name: docker ps
+        run: docker ps
+
       - name: Prepare the test environment
         run: |
           docker exec -t frontify-task_api_1 sh -c "composer install"
