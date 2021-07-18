@@ -1,7 +1,7 @@
 ![main](https://github.com/NFLorD/frontify-task/actions/workflows/main.yml/badge.svg)
 
 ### Installing the project:
-git clone git@github.com:NFLorD/frontify-task.git \
+git clone https://github.com/NFLorD/frontify-task.git \
 cd frontify-task
 
 docker-compose build \
