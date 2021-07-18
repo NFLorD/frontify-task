@@ -9,7 +9,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass=ColorRepository::class)
- * @UniqueEntity("hex")
+ * @UniqueEntity("hex", message="A color with hex {{ value }} already exists.")
  */
 class Color
 {
@@ -23,12 +23,14 @@ class Color
     /**
      * @ORM\Column(type="string", length=32)
      * @Assert\NotBlank(normalizer="trim")
+     * @Assert\Regex("/^[0-9a-zA-Z -]{1,32}$/")
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=6, unique=true)
      * @Assert\Length(min=6, max=6)
+     * @Assert\Regex("/^[0-9a-fA-F]{6}$/")
      */
     private $hex;
 

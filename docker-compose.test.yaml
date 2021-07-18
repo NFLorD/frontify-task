@@ -2,7 +2,7 @@ version: "3.3"
 services:
   api:
     build: 
-      context: ./infra/api
+      context: ./infra/phpfpm
     volumes:
       - ./api:/var/www/html
     depends_on: 
