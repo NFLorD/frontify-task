@@ -21,7 +21,7 @@ docker exec -t frontify-task_api_1 sh -c "php /var/www/html/bin/console --env=te
 docker exec -t frontify-task_api_1 sh -c "php /var/www/html/vendor/bin/behat"
 
 ### Frontend (dev):
-https://localhost:8080
+http://localhost:8080
 
 ### Frontend (prod):
 https://localhost
