@@ -16,4 +16,4 @@ Scenario: Wrong hex
 Scenario: Duplicate hex
     When I try to create a color named "Red", with hex "ff0000"
     When I try to create a color named "Green", with hex "ff0000"
-    Then I should have an error with message "hex: This value is already used."
+    Then I should have an error with message 'hex: A color with hex "ff0000" already exists.'
