@@ -29,6 +29,6 @@ services:
       context: ./infra/nodejs
     volumes:
       - ./app:/var/www/html
-    command: sh -c "cd /var/www/html && npm run serve"
+    command: sh -c "cd /var/www/html && npm install && npm run serve"
     ports:
       - "8080:8080"

@@ -29,4 +29,4 @@ services:
       context: ./infra/nodejs
     volumes:
       - ./app:/var/www/html
-    command: sh -c "cd /var/www/html && npm run build"
+    command: sh -c "cd /var/www/html && npm install && npm run build"
